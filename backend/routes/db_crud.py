@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 from sqlalchemy import or_, and_
 
-from models import User, Friends, Header, Chat
-from schema import UserSchema, FriendSchema, ChatSchema
+from .configs.db_models import User, Friends, Header, Chat
+from .configs.schema import UserSchema, ChatSchema
 
 def db_add_user(db: Session, user: UserSchema):
     db_item = User(name=user.username, password=user.password)
