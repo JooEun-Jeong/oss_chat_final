@@ -1,170 +1,26 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>login</title>
-        
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $("#btn_login").click(function() {
-                    login();
-                });
-                $("#btn_register").click(function() {
-                    register();
-                });
-            });
-            function login() {
-                var user_name = $("#user_name").val();
-                var user_pw = $("#user_pw").val();
 
-                if (user_name == "" || user_pw == "") {
-                    alert("아이디와 비밀번호를 입력해주세요.");
-                    return;
-                }
+<head>
+    <title>login</title>
 
-                var data = {
-                    "username": user_name,
-                    "password": user_pw
-                };
-                $.ajax({
-                    url: "/token",
-                    type: "post",
-                    data: data,
-                    success: function (data, txtStatus, xhr) {
-                        window.location = "/friends";
-                    },
-                    error: function(e) {
-                        alert("아이디 또는 비밀번호가 틀렸습니다.");
-                    }
-                });
-            }
-            function register() {
-                var user_name = $("#user_name").val();
-                var user_pw = $("#user_pw").val();
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../utils/login.js"></script>
+    <link rel="stylesheet" href="../styles/login_style.css" />
+</head>
 
-                if (user_name == "" || user_pw == "") {
-                    alert("아이디와 비밀번호를 입력해주세요.");
-                    return;
-                }
-
-                var data = {
-                    "username": user_name,
-                    "password": user_pw
-                };
-
-                var users = [];
-
-                $.getJSON("/users", function(user, txtStatus, xhr) {
-                    for(var i = 0; i < user.length; i++) {
-                        users.push(user[i].name);
-                    };
-                    console.log(users);
-
-                    if (users.includes(user_name)) {
-                        alert("이미 존재하는 아이디입니다.");
-                    } else {
-                        $.ajax({
-                            url: "/register",
-                            type: "post",
-                            contentType: "application/json",
-                            data: JSON.stringify(data),
-                            success: function (data, txtStatus, xhr) {
-                                $("#user_name").val("");
-                                $("#user_pw").val("");
-                                alert("회원가입이 완료되었습니다.");
-                            },
-                            error: function(e) {
-                                console.log(e);
-                            }
-                        });
-                    }
-                });
-            }
-        </script>
-        <style>
-            * {
-                font-family: Arial, Helvetica, sans-serif;
-                font-weight: 500;
-            }
-            #logo {
-                position: relative;
-                background-color: #3A1D1D;
-                margin:70px auto;
-                width:200px;
-                height: 100px;
-                clip-path: ellipse(80px 50px);
-            }
-            #logo h1{
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -75%);
-                color: #fef01b;
-                font-weight: bold;
-            }
-            #content {
-                width: 350px;
-                height: 550px;
-                margin: 0 auto;
-                text-align: center;
-                border: 2px solid black;
-                border-radius: 5px;
-                padding: 10px;
-                margin-top: 10px;
-                background-color: #fef01b;
-                color: #fef01b;
-            }
-            #loginform {
-                width: 280px;
-                margin: 100px auto 0 auto;
-            }
-            #loginform input {
-                width: 280px;
-                height: 30px;
-                border: 1px solid gainsboro;
-                font-size: 15px;
-                margin-bottom: 10px;
-            }
-            #loginform input[type="text"] {
-                text-align: center;
-                border-radius: 2px;
-                margin-bottom: 0;
-            }
-            #loginform input[type="text"]:focus {
-                outline: none;
-            }
-            #loginform input[type="password"] {
-                text-align: center;
-                border-radius: 2px;
-                margin-bottom: 0;
-            }
-            #loginform input[type="password"]:focus {
-                outline: none;
-            }
-            #loginform input[type="button"] {
-                width: 280px;
-                height: 50px;
-                font-size: 20px;
-                border-radius: 2px;
-                border: 0;
-                background-color: #3A1D1D;
-                color: white;
-            }
-            #loginform input[type="button"]:hover {
-                background-color: #4b2626;
-            }
-        </style>
-    </head>
-    <body>
-        <div id ="content">
-            <div id="logo">
-                <h1>KaKao Talk</h1>
-            </div>
-            <div id="loginForm">
-                <input type="text" id="user_name" name="user_name" placeholder="ID">
-                <input type="password" autocomplete="off" id="user_pw" name="user_pw" placeholder="PW">
-
-                <input type="button" id="btn_login" value="로그인">
-                <input type="button" id="btn_register" value="회원가입">
-            </div>
+<body>
+    <div id="content">
+        <div id="logo">
+            <h1>KaKao Talk</h1>
         </div>
+        <div id="loginform">
+            <input type="text" id="user_name" name="user_name" placeholder="ID">
+            <input type="password" autocomplete="off" id="user_pw" name="user_pw" placeholder="PW">
+
+            <input type="button" id="btn_login" value="로그인">
+            <input type="button" id="btn_register" value="회원가입">
+        </div>
+    </div>
+
 </html>

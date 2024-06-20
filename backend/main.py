@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 
 from fastapi.responses import RedirectResponse
+from fastapi.staticfiles import StaticFiles
 from fastapi_login import LoginManager
 
 from routes.configs.db_connection import SessionLocal ,engine
@@ -12,6 +13,10 @@ from routes.chat_routers import create_chat_router
 from routes.user_routers import create_user_router
 
 app = FastAPI()
+# Mount the static files directories
+app.mount("/styles", StaticFiles(directory="../frontend/styles"), name="styles")
+app.mount("/utils", StaticFiles(directory="../frontend/utils"), name="utils")
+
 
 Base.metadata.create_all(bind=engine)
 

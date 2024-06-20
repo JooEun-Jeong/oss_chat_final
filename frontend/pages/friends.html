@@ -1,257 +1,37 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>친구</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script>
-            var current_user;
-            $(document).ready(function() {
-                $.ajax({
-                    url: "/current_user",
-                    type: "get",
-                    success: function (data, txtStatus, xhr) {
-                        current_user = data;
-                    }
-                });
-                console.log(current_user);
-                $("#add_friend").click(function() {
-                    $(".modal").css("display", "block");
-                });
-                $(".close").click(function() {
-                    $(".modal").css("display", "none");
-                });
-                $("#add_friend_btn").click(function() {
-                    var friend_id = $("#add_friend_id").val();
-                    if (friend_id == "") {
-                        alert("친구 ID를 입력해주세요.");
-                        return;
-                    }
 
-                    if (friend_id == current_user) {
-                        alert("자기 자신은 친구로 추가할 수 없습니다.");
-                        return;
-                    }
+<head>
+    <title>친구</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../utils/friends.js"></script>
+    <link rel="stylesheet" href="../styles/friends_style.css" />
+</head>
 
-                    $.ajax({
-                        url: "/users",
-                        type: "get",
-                        success: function (data, txtStatus, xhr) {
-                            var users = [];
-                            for(var i = 0; i < data.length; i++) {
-                                users.push(data[i].name);
-                            };
-                            console.log(users);
-                            if (users.indexOf(friend_id) == -1) {
-                                alert("존재하지 않는 ID입니다.");
-                                return;
-                            }
-                            $.get("/current_user", function(user, txtStatus, xhr) {
-                                console.log(user);
-                                $.ajax({
-                                    url: "/addfriend",
-                                    type: "post",
-                                    data: JSON.stringify({ "user1": user, "user2": friend_id }),
-                                    contentType: "application/json",
-                                    success: function (data, txtStatus, xhr) {
-                                        console.log(data);
-                                        if (data) {
-                                            $("#add_friend_id").val("");
-                                            $(".modal").css("display", "none");
-                                            $("#friends-list").append("<li click='chatStart();'>" + friend_id + "</li>");
-                                            location.reload();
-                                        }   
-                                        else if (data == false) {
-                                            alert("이미 친구입니다.");
-                                        }
-                                    }
-                                })
-                            });
-                        }
-                    });
-                });
-                $.get("/current_user", function(user, txtStatus, xhr) {
-                    console.log(user);
-                    $.ajax({
-                        url: "/getfriends",
-                        type: "get",
-                        data: {"user":user},
-                        success: function (data, txtStatus, xhr) {
-                            console.log(data);
-                            for (var i = 0; i < data.length; i++) {
-                                var tmp ="";
-                                if (data[i].user1_id == user)
-                                    tmp = data[i].user2_id;
-                                else
-                                    tmp = data[i].user1_id;
-                                $("#friends-list").append("<li onclick='chatStart();'>" + tmp + "</li>");
-                            }
-                        }
-                    })
-                });
-            });
-            function chatStart() {
-                var friend_id = event.target.innerText;
-                $.get("/current_user", function(user, txtStatus, xhr) {
-                    $.ajax({
-                        url: "/chatting/"+friend_id,
-                        type: "get",
-                        success: function (data, txtStatus, xhr) {
-                            window.location = "/chatting/"+friend_id;
-                        }
-                    })
-                });
-            }
-        </script>
-        <style>
-            * {
-                font-family: Arial, Helvetica, sans-serif;
-                font-weight: 500;
-            }
-
-            ul {
-                padding: 0;
-                margin: 0;
-            }
-
-            li {
-                list-style: none;
-                padding-top: 10px;
-                padding-bottom: 10px;
-                padding-left: 5px;
-                font-size: 20px;
-                border-bottom: 1px solid gainsboro;
-            }
-
-            body {
-                margin: 0;
-                overflow: hidden;
-            }
-            
-            #content {
-                position: relative;
-                width: 370px;
-                height: 550px;
-                margin: 8px auto;
-                border: 2px solid black;
-                border-radius: 5px;
-                margin-top: 10px;
-                color: black;
-            }
-
-            #friends input[type=button] {
-                border: 1px solid gainsboro;
-                width: 55px;
-                height: 30px;
-                border-radius: 30px;
-                margin-right: 10px;
-                background-color: white;
-                float: right;
-            }
-
-            #friends input[type=button]:hover {
-                background-color: ghostwhite;
-            }
-
-            #viewbox_title {
-                position: relative;
-                margin-left: auto;
-                text-align: center;
-                font-weight: bold;
-                font-size: 20px;
-                clear: both;
-            }
-
-            #list_area {
-                width: 320px;
-                height: 400px;
-                border-top: 1px solid gainsboro;
-                margin: 0 auto;
-                margin-top: 10px;
-                overflow: auto;
-            }
-
-            #menu {
-                display:flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                width: 370px;
-                height: 58px;
-                border-bottom-left-radius: 5px;
-                border-bottom-right-radius: 5px;
-                margin-left: 0;
-                background-color: rgb(232, 232, 232);
-            }
-
-            #menu input[type=button] {
-                width: 80px;
-                height: 30px;
-                border: 1px solid rgb(209, 209, 209);
-                border-radius: 10px;
-                font-weight: bold;
-                font-size: 15px;
-                background-color: rgb(209, 209, 209);
-                margin-top:15px;
-            }
-
-            #menu input[type=button]:hover {
-                background-color: rgb(202, 200, 200);
-            }
-
-            .modal {
-                position: absolute;
-                display: none;
-                
-                top: 0;
-                width: 100%;
-                height: 100%;
-
-                z-index: 10;
-
-                background-color: rgba(0, 0, 0, 0.3);
-            }
-            .modal_body {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-
-                padding: 5px;
-                width: 300px;
-                height: 290px;
-                background-color: white;
-                border-radius: 5px;
-            }
-            .close {
-                cursor: pointer;
-            }
-
-            #friends-list li:hover {
-                background-color: #f2f2f2;
-                cursor: pointer;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="modal">
-            <div class="modal_body">
-                <span class="close">x</span>
-                <p id="add_modal_title">친구 추가</p>
-                <input type="text" id="add_friend_id" placeholder="친구 ID">
-                <input type="button" id="add_friend_btn" value="추가">
-            </div>
+<body>
+    <div class="modal">
+        <div class="modal_body">
+            <span class="close">x</span>
+            <p id="add_modal_title">친구 추가</p>
+            <input type="text" id="add_friend_id" placeholder="친구 ID">
+            <input type="button" id="add_friend_btn" value="추가">
         </div>
-        <div id="content">
-            <div id="friends" style="margin-top:15px;">
-                <input type="button" id="add_friend" value="친구 +">
-                <p id="viewbox_title">친구 목록</p>
-            </div>
-            <div id="list_area">
-                <ul id="friends-list">
-                </ul>
-            </div>
-            <div id="menu">
-                <a href="/friends"><input type="button" id="friends" value="친구"></a>
-                <a href="/chatlist"><input type="button" id="chatting" value="채팅"></a>
-                <a href="/logout"><input type="button" id="logout" value="로그아웃"></a>
-            </div>
+    </div>
+    <div id="content">
+        <div id="friends" style="margin-top:15px;">
+            <input type="button" id="add_friend" value="친구 +">
+            <p id="viewbox_title">친구 목록</p>
         </div>
-    </body>
+        <div id="list_area">
+            <ul id="friends-list">
+            </ul>
+        </div>
+        <div id="menu">
+            <a href="/friends"><input type="button" id="friends" value="친구"></a>
+            <a href="/chatlist"><input type="button" id="chatting" value="채팅"></a>
+            <a href="/logout"><input type="button" id="logout" value="로그아웃"></a>
+        </div>
+    </div>
+</body>
+
+</html>

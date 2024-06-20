@@ -1,147 +1,26 @@
+<!DOCTYPE html>
 <html>
-    <head>
-        <title>채팅</title>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script>
-            $(document).ready(function() {
-                $.get("/current_user", function(user, txtStatus, xhr) {
-                    console.log(user);
-                    $.getJSON("/chatlists", {user:user}, function (data, txtStatus, xhr) {
-                            console.log(data);
-                            for (var i = 0; i < data.length; i++) {
-                                if (data[i].to_id == user)
-                                    $("#chat-list").append("<li onclick='chatStart();'><div id='chatentry'><span class='friend'>" + data[i].from_id + "</span><span class='last_chat'>" + data[i].last_chat + "</span></div></li>");
-                                else if (data[i].from_id == user)
-                                    $("#chat-list").append("<li onclick='chatStart();'><div id='chatentry'><span class='friend'>" + data[i].to_id + "</span><span class='last_chat'>" + data[i].last_chat + "</span></div></li>");
-                            }
-                        }
-                    )
-                });
-            });
-            function chatStart() {
-                var friend_id = $(event.currentTarget).closest("li").find(".friend").text();
-                console.log(friend_id);
-                $.get("/current_user", function(user, txtStatus, xhr) {
-                    $.ajax({
-                        url: "/chatting/"+friend_id,
-                        type: "get",
-                        success: function (data, txtStatus, xhr) {
-                            window.location = "/chatting/"+friend_id;
-                        }
-                    })
-                });
-            }
-        </script>
-        <style>
-            * {
-                font-family: Arial, Helvetica, sans-serif;
-                font-weight: 500;
-            }
+<head>
+    <title>채팅</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../utils/chatlist.js"></script>
+    <link rel="stylesheet" href="../styles/chatlist_style.css" />
+</head>
 
-            ul {
-                padding: 0;
-                margin: 0;
-            }
-
-            li {
-                list-style: none;
-                padding-top: 10px;
-                padding-bottom: 10px;
-                padding-left: 5px;
-                font-size: 20px;
-                border-bottom: 1px solid gainsboro;
-            }
-
-            li:hover {
-                background-color: gainsboro;
-            }
-            
-            #content {
-                position: relative;
-                width: 370px;
-                height: 550px;
-                margin: 0 auto;
-                border: 2px solid black;
-                border-radius: 5px;
-                margin-top: 10px;
-                color: black;
-            }
-
-            #chats input[type=button] {
-                border: 1px solid gainsboro;
-                width: 55px;
-                height: 30px;
-                border-radius: 30px;
-                margin-right: 10px;
-                background-color: white;
-                float: right;
-            }
-
-            #viewbox_title {
-                position: relative;
-                margin-left: auto;
-                text-align: center;
-                font-weight: bold;
-                font-size: 20px;
-                clear: both;
-            }
-
-            #list_area {
-                width: 320px;
-                height: 400px;
-                border-top: 1px solid gainsboro;
-                margin: 0 auto;
-                margin-top: 10px;
-                overflow: auto;
-            }
-
-            #menu {
-                display:flex;
-                flex-direction: row;
-                justify-content: space-evenly;
-                width: 370px;
-                height: 58px;
-                border-bottom-left-radius: 5px;
-                border-bottom-right-radius: 5px;
-                margin-left: 0;
-                background-color: rgb(232, 232, 232);
-            }
-
-            #menu input[type=button] {
-                width: 80px;
-                height: 30px;
-                border: 1px solid rgb(209, 209, 209);
-                border-radius: 10px;
-                font-weight: bold;
-                font-size: 15px;
-                background-color: rgb(209, 209, 209);
-                margin-top:15px;
-            }
-
-            #menu input[type=button]:hover {
-                background-color: rgb(202, 200, 200);
-            }
-            
-            .last_chat {
-                margin-left: 10px;
-                font-size: 15px;
-            }
-        </style>
-    </head>
-    <body>
-        <div id="content">
-            <div id="chats" style="margin-top:15px;">
-                <p id="viewbox_title">채팅 목록</p>
-            </div>
-            <div id="list_area">
-                <ul id="chat-list">
-                </ul>
-            </div>
-            <div id="menu">
-                <a href="/friends"><input type="button" id="friends" value="친구"></a>
-                <a href="/chatlist"><input type="button" id="chatting" value="채팅"></a>
-                <a href="/logout"><input type="button" id="logout" value="로그아웃"></a>
-            </div>
+<body>
+    <div id="content">
+        <div id="chats" style="margin-top:15px;">
+            <p id="viewbox_title">채팅 목록</p>
         </div>
-    </body>
+        <div id="list_area">
+            <ul id="chat-list">
+            </ul>
+        </div>
+        <div id="menu">
+            <a href="/friends"><input type="button" id="friends" value="친구"></a>
+            <a href="/chatlist"><input type="button" id="chatting" value="채팅"></a>
+            <a href="/logout"><input type="button" id="logout" value="로그아웃"></a>
+        </div>
+    </div>
+</body>
 </html>
