@@ -1,134 +1,33 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-        <script src="../utils/chatting.js">
-            
-        </script>
-        <link rel="stylesheet" href="../styles/chatting_style.css" />
-    </head>
-    <body>
-        <div id="close">
-            <button id="back" onClick="(function(){window.location=document.referrer;})();">←</a>
+
+<head>
+    <title>카톡</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../utils/chatting.js"></script>
+    <link rel="stylesheet" href="../styles/chatting_style.css" />
+</head>
+
+<body>
+    <div id="close">
+        <a><button id="back" onClick="(function(){window.location=document.referrer;})();">←</button></a>
+    </div>
+    <div id="user" style="display:none;">
+        <input type="text" id="friend_name" name="friend_name">
+    </div>
+    <div id="chat_box" class="chat_window chat_room">
+        <div class="chatting">
         </div>
-        <div id="user" style="display:none;">
-            <input type="text" id="friend_name" name="friend_name">
+        <div id="send_left" class="send_area">
+            <textarea id="text_box" class="chat_text"></textarea>
         </div>
-        <div id="chat_box" class="chat_window chat_room">
-            <div class="chatting">
-            </div>
-            <div id="send_left" class="send_area">
-                <textarea id="text_box" class="chat_text"></textarea>
-            </div>
-        </div>
+    </div>
+    <div class="buttons">
+        <!-- ###### PHASE 2: Feat Reserve Message ######## -->
+        <button id="btn_reserve" onclick="sendReserve();" class="btn_send">Reserve Message</button> 
+        <!-- ########### END PHASE 2 ############# -->
         <button id="btn_send" onclick="sendClick();" class="btn_send">Send</button>
-        <script>
-            function sendClick(event) {
-                var date = new Date();
-                var time;
-                var am_pm = date.getHours() >= 12 ? "오후" : "오전";
-                var hours = date.getHours() > 12 ? date.getHours() - 12 : date.getHours();
-                var minutes = date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes();
-                time = am_pm + " " + hours + ":" + minutes;
+    </div>
+</body>
 
-                var text = $("#text_box").val();
-
-                if (text == "") {
-                    return;
-                }
-                
-                $.getJSON("/current_user", function(sender) {
-                    $.getJSON("/getroom", {user1: sender, user2:friend}, function(data) {
-                        var msg = {
-                            sender_name : sender,
-                            receiver_name : friend,
-                            group_id : null,
-                            header_id : null,
-                            content : text,
-                            sent_at : time
-                        };
-
-                        if (data) {
-                            msg.header_id = data.id;
-                    
-                            $.ajax({
-                                url: "/chat",
-                                type: "post",
-                                data: JSON.stringify(msg),
-                                contentType: "application/json",
-                                success: function (data) {
-                                    $.ajax({
-                                        url: "/updatelastchat",
-                                        type: "post",
-                                        data: JSON.stringify({"header_id": msg.header_id, "last_chat": text}),
-                                        contentType: "application/json",
-                                        success: function (data) {
-                                            console.log(data);
-                                        },
-                                        error: function (request, error) {
-                                            console.log(JSON.stringify(error));
-                                        },
-                                    });
-                                    console.log(data);
-                                    console.log(JSON.stringify(msg));
-                                },
-                                error: function (request, error) {
-                                    console.log(JSON.stringify(error));
-                                },
-                            });
-                            
-                            ws.send(JSON.stringify(msg));
-                        }
-                        else {
-                            $.ajax({
-                                url: "/makeroom",
-                                data: JSON.stringify({"from_id": sender, "to_id": friend, "to_group": null, "last_chat": text}),
-                                contentType: "application/json",
-                                type: "post",
-                                success: function (data) {
-                                    console.log(data);
-                                    msg.header_id = data;
-                    
-                                    $.ajax({
-                                        url: "/chat",
-                                        type: "post",
-                                        data: JSON.stringify(msg),
-                                        contentType: "application/json",
-                                        success: function (data) {
-                                            $.ajax({
-                                                url: "/updatelastchat",
-                                                type: "post",
-                                                data: JSON.stringify({"header_id": msg.header_id, "last_chat": text}),
-                                                contentType: "application/json",
-                                                success: function (data) {
-                                                    console.log(data);
-                                                },
-                                                error: function (request, error) {
-                                                    console.log(JSON.stringify(error));
-                                                },
-                                            });
-                                            console.log(data);
-                                            console.log(JSON.stringify(msg));
-                                        },
-                                        error: function (request, error) {
-                                            console.log(JSON.stringify(error));
-                                        },
-                                    });
-                                    
-                                    ws.send(JSON.stringify(msg));
-                                }
-                            })
-                        }
-                    
-                        $("#chat_box").find(".chatting").append("<div class='myChat'>" +
-                        "<div class='me chat'>" + text.replace(/(?:\r\n|\r|\n)/g, '<br/>') + "</div><div class='timeRight'>" + time +"</div></div>");
-                    
-                        $("#text_box").val("");
-                        $(".chatting").scrollTop($(".chatting")[0].scrollHeight);
-                        $("#text_box").focus();
-                    });
-                })
-            }
-        </script>
-    </body>
 </html>

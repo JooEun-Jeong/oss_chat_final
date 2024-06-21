@@ -106,8 +106,15 @@ body {
   width: 60px;
   height: 30px;
   margin-top: 3px;
-  float: right;
 }
+
+/* ###### PHASE 2: Feat Reserve Message ######## */
+.btn_send:hover {
+  background-color: #f7e708;
+  cursor: pointer;
+}
+/* ###### END PHASE 2 ######## */
+
 /* 아래의 스크롤바 속성은 Chrome, Safari 브라우저에서 지원된다고 확인하였습니다.
 Firefox에서는 아래의 스크롤바 속성이 적용되지 않아 이상할 수 있습니다. */
 /* 맥과 달리 윈도우에서는 아래의 속성을 넣어야지만 영상과 같은 스크롤바가 나타납니다. */
@@ -120,6 +127,32 @@ Firefox에서는 아래의 스크롤바 속성이 적용되지 않아 이상할 
 
   border: 5px solid #9bbbd4;
 }
+/* ###### PHASE 2: Feat Reserve Message ######## */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+}
+
+#btn_reserve {
+  font-weight: 600;
+  font-size: 8pt;
+  background-color: #fef01b;
+  text-align: center;
+  border: 0;
+  border-radius: 3px;
+  width: 60px;
+  height: 30px;
+  margin-top: 3px;
+}
+
+#btn_reserve:hover {
+  background-color: #f7e708;
+  cursor: pointer;
+}
+/* ###### END PHASE 2 ######## */
 
 #user {
   display: flex;
