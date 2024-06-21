@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>친구</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../utils/friends.js"></script>
+    <link rel="stylesheet" href="../styles/friends_style.css" />
+</head>
+
+<body>
+    <div class="modal">
+        <div class="modal_body">
+            <span class="close">x</span>
+            <p id="add_modal_title">친구 추가</p>
+            <input type="text" id="add_friend_id" placeholder="친구 ID">
+            <input type="button" id="add_friend_btn" value="추가">
+        </div>
+    </div>
+    <div id="content">
+        <div id="friends" style="margin-top:15px;">
+            <input type="button" id="add_friend" value="친구 +">
+            <p id="viewbox_title">친구 목록</p>
+        </div>
+        <div id="list_area">
+            <ul id="friends-list">
+            </ul>
+        </div>
+        <div id="menu">
+            <a href="/friends"><input type="button" id="friends" value="친구"></a>
+            <a href="/chatlist"><input type="button" id="chatting" value="채팅"></a>
+            <a href="/logout"><input type="button" id="logout" value="로그아웃"></a>
+        </div>
+    </div>
+</body>
+
+</html>

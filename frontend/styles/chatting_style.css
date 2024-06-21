@@ -1,0 +1,196 @@
+/* #############################################
+###### PHASE 2: Refactor file ################
+### 사용되는 style을 다른 파일로 분리 ##########
+### 목적에 맞는 style 관리를 용이하게 하기 위함##
+############################################# */
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  font-size: 10pt;
+}
+body {
+  width: 350px;
+}
+.chat_room {
+  background-color: #9bbbd4;
+}
+.me {
+  background-color: #fef01b;
+  float: right;
+}
+
+.op {
+  background-color: #ffffff;
+  float: left;
+}
+.chat {
+  white-space: pre-wrap;
+  max-width: 280px;
+  padding: 4px 7px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+.timeLeft {
+  float: left;
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+.timeRight {
+  float: right;
+  margin-right: 5px;
+  margin-bottom: 10px;
+}
+.myChat {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  float: right;
+  position: relative;
+  clear: both;
+}
+.chatting {
+  overflow-y: scroll;
+  padding-top: 10px;
+  max-height: 84%;
+}
+.opsChat {
+  display: flex;
+  align-items: flex-end;
+  left: 15px;
+  float: left;
+  position: relative;
+  clear: both;
+}
+
+#chat_box {
+  float: left;
+  position: relative;
+}
+
+.chat_window {
+  height: 500px;
+  width: 350px;
+  overflow: auto;
+  padding-bottom: 10px;
+  border: 1px solid gray;
+  border-radius: 4px;
+}
+
+.send_area {
+  display: flex;
+  height: 16%;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+}
+
+.chat_text {
+  flex: none;
+  border: 1px;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  resize: none;
+  width: inherit;
+}
+
+.btn_send {
+  font-weight: 600;
+  font-size: 11pt;
+  background-color: #fef01b;
+  border: 0;
+  border-radius: 3px;
+  width: 60px;
+  height: 30px;
+  margin-top: 3px;
+}
+
+/* ###### PHASE 2: Feat Reserve Message ######## */
+.btn_send:hover {
+  background-color: #f7e708;
+  cursor: pointer;
+}
+/* ###### END PHASE 2 ######## */
+
+/* 아래의 스크롤바 속성은 Chrome, Safari 브라우저에서 지원된다고 확인하였습니다.
+Firefox에서는 아래의 스크롤바 속성이 적용되지 않아 이상할 수 있습니다. */
+/* 맥과 달리 윈도우에서는 아래의 속성을 넣어야지만 영상과 같은 스크롤바가 나타납니다. */
+.chatting::-webkit-scrollbar {
+  width: 15px;
+}
+.chatting::-webkit-scrollbar-thumb {
+  background-color: gray;
+  border-radius: 10px;
+
+  border: 5px solid #9bbbd4;
+}
+/* ###### PHASE 2: Feat Reserve Message ######## */
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+}
+
+#btn_reserve {
+  font-weight: 600;
+  font-size: 8pt;
+  background-color: #fef01b;
+  text-align: center;
+  border: 0;
+  border-radius: 3px;
+  width: 60px;
+  height: 30px;
+  margin-top: 3px;
+}
+
+#btn_reserve:hover {
+  background-color: #f7e708;
+  cursor: pointer;
+}
+/* ###### END PHASE 2 ######## */
+
+#user {
+  display: flex;
+  margin: 5px;
+}
+
+#user_name {
+  flex: 1;
+  margin-right: 5px;
+  font-size: 13pt;
+  border-radius: 5px;
+  border-color: rgba(211, 211, 211, 0.422);
+}
+input[id="user_name"]::placeholder {
+  text-align: center;
+}
+#set_user {
+  font-weight: 600;
+  font-size: 11pt;
+  background-color: #fef01b;
+  border: 0;
+  border-radius: 3px;
+  width: 60px;
+  height: 30px;
+  bottom: 5px;
+  right: 5px;
+}
+
+.receiver {
+  position: relative;
+  margin-top: 5px;
+  left: 15px;
+  float: left;
+  clear: both;
+}
+#back {
+  clip-path: circle(20px, 20px);
+  font-weight: bolder;
+  font-size: large;
+  margin-bottom: 5px;
+}

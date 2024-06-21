@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
 class UserSchema(BaseModel):
     username: Optional[str]
@@ -39,3 +40,16 @@ class ChatSchema(BaseModel):
 
     class Config:
         from_attributes = True
+
+#############################################
+###### PHASE 2: Feat Reserve Message ########
+### 예약한 시간에 맞게 문자 보내는기능 추가 ####
+#############################################
+class ReserveMessageSchema(BaseModel):
+    current_user_id: Optional[str]
+    target_user_id: Optional[str]
+    message: Optional[str]
+    send_time: datetime
+##################    End   #################
+###### PHASE 2: Feat Reserve Message ########
+#############################################

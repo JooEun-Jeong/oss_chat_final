@@ -1,0 +1,132 @@
+/* #############################################
+###### PHASE 2: Refactor file ################
+### 사용되는 style을 다른 파일로 분리 ##########
+### 목적에 맞는 style 관리를 용이하게 하기 위함##
+############################################# */
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 5px;
+  font-size: 20px;
+  border-bottom: 1px solid gainsboro;
+}
+
+body {
+  margin: 0;
+  overflow: hidden;
+}
+
+#content {
+  position: relative;
+  width: 370px;
+  height: 550px;
+  margin: 8px auto;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-top: 10px;
+  color: black;
+}
+
+#friends input[type="button"] {
+  border: 1px solid gainsboro;
+  width: 55px;
+  height: 30px;
+  border-radius: 30px;
+  margin-right: 10px;
+  background-color: white;
+  float: right;
+}
+
+#friends input[type="button"]:hover {
+  background-color: ghostwhite;
+}
+
+#viewbox_title {
+  position: relative;
+  margin-left: auto;
+  text-align: center;
+  font-weight: bold;
+  font-size: 20px;
+  clear: both;
+}
+
+#list_area {
+  width: 320px;
+  height: 400px;
+  border-top: 1px solid gainsboro;
+  margin: 0 auto;
+  margin-top: 10px;
+  overflow: auto;
+}
+
+#menu {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  width: 370px;
+  height: 58px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  margin-left: 0;
+  background-color: rgb(232, 232, 232);
+}
+
+#menu input[type="button"] {
+  width: 80px;
+  height: 30px;
+  border: 1px solid rgb(209, 209, 209);
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 15px;
+  background-color: rgb(209, 209, 209);
+  margin-top: 15px;
+}
+
+#menu input[type="button"]:hover {
+  background-color: rgb(202, 200, 200);
+}
+
+.modal {
+  position: absolute;
+  display: none;
+
+  top: 0;
+  width: 100%;
+  height: 100%;
+
+  z-index: 10;
+
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.modal_body {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  padding: 5px;
+  width: 300px;
+  height: 290px;
+  background-color: white;
+  border-radius: 5px;
+}
+.close {
+  cursor: pointer;
+}
+
+#friends-list li:hover {
+  background-color: #f2f2f2;
+  cursor: pointer;
+}

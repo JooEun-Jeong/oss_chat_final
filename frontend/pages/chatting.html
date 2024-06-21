@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>카톡</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="../utils/chatting.js"></script>
+    <link rel="stylesheet" href="../styles/chatting_style.css" />
+</head>
+
+<body>
+    <div id="close">
+        <a><button id="back" onClick="(function(){window.location=document.referrer;})();">←</button></a>
+    </div>
+    <div id="user" style="display:none;">
+        <input type="text" id="friend_name" name="friend_name">
+    </div>
+    <div id="chat_box" class="chat_window chat_room">
+        <div class="chatting">
+        </div>
+        <div id="send_left" class="send_area">
+            <textarea id="text_box" class="chat_text"></textarea>
+        </div>
+    </div>
+    <div class="buttons">
+        <!-- ###### PHASE 2: Feat Reserve Message ######## -->
+        <button id="btn_reserve" onclick="sendReserve();" class="btn_send">Reserve Message</button>
+        <!-- ########### END PHASE 2 ############# -->
+        <!-- ###### PHASE 2: Feat Upload Image ######## -->
+        <input type="file" id="image_input" class="btn_send" accept="image/*">
+        <!-- ########### END PHASE 2 ############# -->
+        <button id="btn_send" onclick="sendClick();" class="btn_send">Send</button>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,80 @@
+/* #############################################
+###### PHASE 2: Refactor file ################
+### 사용되는 style을 다른 파일로 분리 ##########
+### 목적에 맞는 style 관리를 용이하게 하기 위함##
+############################################# */
+
+* {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+}
+#logo {
+  position: relative;
+  background-color: #3a1d1d;
+  margin: 70px auto;
+  width: 200px;
+  height: 100px;
+  clip-path: ellipse(80px 50px);
+}
+#logo h1 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -75%);
+  color: #fef01b;
+  font-weight: bold;
+}
+#content {
+  width: 350px;
+  height: 550px;
+  margin: 0 auto;
+  text-align: center;
+  border: 2px solid black;
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+  background-color: #fef01b;
+  color: #fef01b;
+}
+#loginform {
+  width: 280px;
+  margin: 100px auto 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#loginform input {
+  width: 100%;
+  height: 30px;
+  border: 1px solid gainsboro;
+  font-size: 15px;
+}
+#loginform input[type="text"] {
+  text-align: center;
+  border-radius: 2px;
+  margin-bottom: 0;
+}
+#loginform input[type="text"]:focus {
+  outline: none;
+}
+#loginform input[type="password"] {
+  text-align: center;
+  border-radius: 2px;
+  margin-bottom: 0;
+}
+#loginform input[type="password"]:focus {
+  outline: none;
+}
+#loginform input[type="button"] {
+  height: 50px;
+  font-size: 20px;
+  border-radius: 2px;
+  border: 0;
+  background-color: #3a1d1d;
+  color: white;
+  margin-top: 5px;
+}
+#loginform input[type="button"]:hover {
+  background-color: #4b2626;
+}
