@@ -24,8 +24,9 @@ logger = logging.getLogger(__name__)
 
 app = FastAPI()
 # Mount the static files directories
-app.mount("/styles", StaticFiles(directory="../frontend/styles"), name="styles")
-app.mount("/utils", StaticFiles(directory="../frontend/utils"), name="utils")
+app.mount("/styles", StaticFiles(directory="../frontend/styles"), name="styles") #### PHASE 2: Refactpr architecture
+app.mount("/utils", StaticFiles(directory="../frontend/utils"), name="utils") #### PHASE 2: Refactpr architecture
+app.mount("/uploads", StaticFiles(directory="uploads"), name="uploads")  #### PHASE 2: Upload Image
 
 Base.metadata.create_all(bind=engine)
 

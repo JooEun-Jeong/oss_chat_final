@@ -2,9 +2,11 @@
 ##### PHASE 2: Refactor API ####
 ## API 목적에 맞게 라우터로 분리 #
 ################################
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, File, Form, HTTPException, UploadFile
 from sqlalchemy.orm import Session
 from datetime import datetime, timezone
+import os
+import shutil
 
 from routes.db_crud import db_add_user, db_add_friend, db_get_friends, db_get_room
 from .configs.db_connection import SessionLocal
@@ -16,9 +18,16 @@ import logging
 # Setup logging
 logger = logging.getLogger(__name__)
 
+UPLOAD_DIR = "uploads" ###### PHASE 2: Upload Image ################
+
 # User과 관련된 라우터
 def create_user_router(manager, get_db, scheduler):
     router = APIRouter()
+
+    ###### PHASE 2: Upload Image ################
+    if not os.path.exists(UPLOAD_DIR):
+        os.makedirs(UPLOAD_DIR)
+    ####### END #################################
 
     @router.post("/register")
     def register(user: UserSchema, db: Session = Depends(get_db)):
@@ -39,6 +48,31 @@ def create_user_router(manager, get_db, scheduler):
     @router.post("/addfriend")
     def add_friend(friend: FriendSchema, db: Session = Depends(get_db)):
         return db_add_friend(db, friend.user1, friend.user2)
+
+    #############################################
+    ###### PHASE 2: Upload Image ################
+    ### 채팅으로 이미지 업로드 가능 ##########
+    #############################################
+    @router.post("/upload_image")
+    async def upload_image(current_user_id: str = Form(...), target_user_id: str = Form(...), file: UploadFile = File(...), db: Session = Depends(get_db)):
+        try:
+            file_path = os.path.join(UPLOAD_DIR, file.filename)
+            with open(file_path, "wb") as buffer:
+                shutil.copyfileobj(file.file, buffer)
+        except Exception as e:
+            logger.error(f"Error uploading file: {e}")
+            raise HTTPException(status_code=500, detail="Error uploading file")
+
+        file_url = f"/uploads/{file.filename}"
+        send_message(current_user_id, target_user_id, f"![image]({file_url})")
+        return {"status": "Image uploaded successfully", "file_url": file_url}
+
+    #############################################
+    ###### END PHASE 2: Upload Image ############
+    #############################################
+
+
+
     
     #############################################
     ###### PHASE 2: Feat Reserve Message ########

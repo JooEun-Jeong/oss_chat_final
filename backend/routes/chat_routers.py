@@ -2,7 +2,7 @@
 ##### PHASE 2: Refactor API ####
 ## API 목적에 맞게 라우터로 분리 #
 ################################
-from fastapi import APIRouter, Depends, WebSocket
+from fastapi import APIRouter, Depends, WebSocket, WebSocketDisconnect
 from sqlalchemy import or_
 from sqlalchemy.orm import Session
 from .configs.schema import HeaderSchema, ChatSchema, LastchatSchema
@@ -26,6 +26,8 @@ def create_chat_router(get_db):
             while True:
                 data = await websocket.receive_text()
                 await wsManager.broadcast(f"{data}")
+        except WebSocketDisconnect:
+            await wsManager.disconnect(websocket)
         except Exception as e:
             pass
         finally:
@@ -54,7 +56,10 @@ def create_chat_router(get_db):
 
     @router.post("/chat")
     async def add_chat(chat: ChatSchema, db: Session = Depends(get_db)):
-        return db_add_chat(db, chat)
+        result = db_add_chat(db, chat)
+        # Broadcast the chat message to all connected clients
+        await wsManager.broadcast(f"{chat.sender_name}: {chat.content}")
+        return result
 
     @router.get("/chatlists")
     def get_chatlists(user: str, db: Session = Depends(get_db)):
